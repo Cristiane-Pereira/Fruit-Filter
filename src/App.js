@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment, useMemo, useState } from "react";
+
+const frutas = [
+  "Banana",
+  "Uva",
+  "Maça",
+  "Pessêgo",
+  "Morango",
+  "Melância",
+  "Laranja",
+  "Limão",
+  "Tomate",
+  "Melão",
+  "Cereja",
+  "Abacaxi",
+  "Abacate",
+];
 
 function App() {
+  const [busca, setBusca] = useState("");
+
+  const frutasFiltradas = useMemo(() => {
+    const lowerBusca = busca.toLocaleLowerCase(); //otimiza o buscador o deixando mais rapido fora do loop;
+    return frutas.filter((item) =>
+      item.toLocaleLowerCase().includes(lowerBusca)
+    );
+  }, [busca]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <h1>Lista de Frutas</h1>
+      <input
+        type="text"
+        onChange={(e) => setBusca(e.target.value)}
+        value={busca}
+      />
+      {frutasFiltradas.map((item) => (
+        <ul key={item}>
+          <li>{item}</li>
+        </ul>
+      ))}
+    </Fragment>
   );
 }
 
